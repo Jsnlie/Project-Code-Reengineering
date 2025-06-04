@@ -21,14 +21,11 @@ public class OptionMenu {
 
     public void getLogin() throws IOException {
         boolean end = false;
-        int customerNumber = 0;
-        int pinNumber = 0;
         while (!end) {
             try {
-                System.out.print("\nEnter your customer number: ");
-                customerNumber = menuInput.nextInt();
-                System.out.print("\nEnter your PIN number: ");
-                pinNumber = menuInput.nextInt();
+                Credentials credentials = readCredentials();
+                int customerNumber = credentials.getCustomerNumber();
+                int pinNumber = credentials.getPin();
                 if (data.containsKey(customerNumber) && pinNumber == data.get(customerNumber).getPinNumber()) {
                     getAccountType(data.get(customerNumber));
                     end = true;
@@ -40,6 +37,14 @@ public class OptionMenu {
                 menuInput.next();
             }
         }
+    }
+
+    private Credentials readCredentials() {
+        System.out.print("\nEnter your customer number: ");
+        int customerNumber = menuInput.nextInt();
+        System.out.print("\nEnter your PIN number: ");
+        int pin = menuInput.nextInt();
+        return new Credentials(customerNumber, pin);
     }
 
     public void getAccountType(Account acc) {
@@ -103,4 +108,3 @@ public class OptionMenu {
         System.exit(0);
     }
 }
-
